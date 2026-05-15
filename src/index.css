@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Concrem dark forest green */
+    --primary: 142 93% 8%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Medium green */
+    --secondary: 142 70% 25%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Light emerald #6ee7b7 ≈ hsl(156,72%,67%) */
+    --accent: 156 72% 67%;
+    --accent-foreground: 142 93% 8%;
+
+    /* Page surfaces */
+    --background: 214 32% 97%;
+    --foreground: 210 24% 24%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 24% 24%;
+
+    /* Subtle tones */
+    --muted: 214 32% 91%;
+    --muted-foreground: 213 12% 52%;
+    --border: 214 32% 89%;
+
+    /* Status */
+    --status-danger: 0 84% 58%;
+
+    --ring: 156 72% 67%;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Manrope', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+  }
+
+  input[type='date']::-webkit-calendar-picker-indicator {
+    opacity: 0.4;
+    cursor: pointer;
+  }
+}
