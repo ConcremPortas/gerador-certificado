@@ -1,27 +1,13 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { hashPassword } from '../lib/hashPassword'
 import type { AuthContextType, User } from '../types/auth'
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
-const SESSION_KEY = 'concrem_cert_session'
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
-
-  // Restore session from localStorage on mount
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(SESSION_KEY)
-      if (saved) setUser(JSON.parse(saved) as User)
-    } catch {
-      localStorage.removeItem(SESSION_KEY)
-    } finally {
-      setLoading(false)
-    }
-  }, [])
+  const [loading] = useState(false)
 
   async function login(email: string, password: string) {
     if (!email.toLowerCase().endsWith('@concrem.com.br')) {
@@ -36,9 +22,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .limit(1)
       .maybeSingle()
 
-    console.log('[login] data:', data, '| error:', error)
-
-    if (error) throw new Error(`Supabase error: ${error.message} (${error.code})`)
+    if (error) throw new Error('E-mail ou senha incorretos')
     if (!data) throw new Error('Usuário não encontrado ou inativo')
 
     const hash = await hashPassword(password)
@@ -56,12 +40,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       created_by: data.created_by,
     }
 
-    localStorage.setItem(SESSION_KEY, JSON.stringify(userData))
     setUser(userData)
   }
 
   function logout() {
-    localStorage.removeItem(SESSION_KEY)
     setUser(null)
   }
 

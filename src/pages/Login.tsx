@@ -74,6 +74,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [emailError, setEmailError] = useState('')
+  const [showForgotMsg, setShowForgotMsg] = useState(false)
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -222,6 +223,7 @@ export default function Login() {
                 </label>
                 <button
                   type="button"
+                  onClick={() => setShowForgotMsg((v) => !v)}
                   className="text-xs hover:underline"
                   style={{ color: '#B8960C' }}
                 >
@@ -253,6 +255,24 @@ export default function Login() {
                 </button>
               </div>
             </div>
+
+            {/* Forgot password message */}
+            {showForgotMsg && (
+              <div
+                className="flex items-start gap-2 px-3 py-2.5 rounded-lg text-sm"
+                style={{
+                  background: '#fffbf0',
+                  border: '1px solid #f0e0a0',
+                  color: '#7a5c00',
+                  fontSize: 13,
+                }}
+              >
+                <span style={{ marginTop: 1 }}>🔑</span>
+                <span>
+                  Entre em contato com o administrador do sistema para redefinir sua senha.
+                </span>
+              </div>
+            )}
 
             {/* General error */}
             {error && (
